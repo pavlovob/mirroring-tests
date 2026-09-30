@@ -5,6 +5,8 @@ stages:
 
 mirror_public:
   stage: sync
+  tags:
+    - docker
   image: alpine:latest
   before_script:
     - apk add --no-cache git openssh-client
