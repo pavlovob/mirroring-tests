@@ -22,11 +22,11 @@ mirror_public:
     - git rm .gitlab-ci.yml
     - git config --global user.name "GitLab Mirror Bot"
     - git config --global user.email "mirror-bot@example.com"
-    - git commit -m "chore: cleanup repository for public mirrors [skip ci]"
+    - git commit -m "Cleanup repository for public mirrors [skip ci]"
     
     # 3. Добавляем внешние репозитории (remotes)
-    - git remote add github git@github.com:ваш-профиль/ваш-репо.git
-    - git remote add gitflic git@gitflic.ru:ваш-профиль/ваш-репо.git
+    - git remote add github git@github.com:pavlovob/mirroring-tests.git
+    - git remote add gitflic git@gitflic.ru:pavlovob/mirroring-tests.git
     
     # 4. Публикуем изменения во все зеркала (перенаправляя очищенную ветку в main/master)
     - git push -f github public-dist:main
