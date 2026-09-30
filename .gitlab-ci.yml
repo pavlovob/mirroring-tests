@@ -17,8 +17,9 @@ mirror_public:
     - ssh-keyscan gitflic.ru >> ~/.ssh/known_hosts
 
   script:
+    - git clean -fd
     # 1. Создаем изолированную ветку для очистки
-    - git checkout -b public-dist
+    - git checkout -B public-dist
     
     # 2. Удаляем файл конфигурации GitLab CI
     - git rm .gitlab-ci.yml
