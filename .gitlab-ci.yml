@@ -26,7 +26,11 @@ mirror_public:
     - git config --global user.name "GitLab Mirror Bot"
     - git config --global user.email "mirror-bot@example.com"
     - git commit -m "Cleanup repository for public mirrors [skip ci]"
-    
+
+    # Удаляем старые репозитории, если они закешировались (|| true не даст джобе упасть)
+    - git remote remove github || true
+    - git remote remove gitflic || true
+
     # 3. Добавляем внешние репозитории (remotes)
     - git remote add github git@github.com:pavlovob/mirroring-tests.git
     - git remote add gitflic git@gitflic.ru:pavlovob/mirroring-tests.git
