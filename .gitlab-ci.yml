@@ -1,2 +1,35 @@
 # Tets pipeline
 
+stages:
+  - sync
+
+mirror_public:
+  stage: sync
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache git openssh-client
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan github.com >> ~/.ssh/known_hosts
+    - ssh-keyscan gitflic.ru >> ~/.ssh/known_hosts
+
+  script:
+    # 1. Создаем изолированную ветку для очистки
+    - git checkout -b public-dist
+    
+    # 2. Удаляем файл конфигурации GitLab CI
+    - git rm .gitlab-ci.yml
+    - git config --global user.name "GitLab Mirror Bot"
+    - git config --global user.email "mirror-bot@example.com"
+    - git commit -m "chore: cleanup repository for public mirrors [skip ci]"
+    
+    # 3. Добавляем внешние репозитории (remotes)
+    - git remote add github git@github.com:ваш-профиль/ваш-репо.git
+    - git remote add gitflic git@gitflic.ru:ваш-профиль/ваш-репо.git
+    
+    # 4. Публикуем изменения во все зеркала (перенаправляя очищенную ветку в main/master)
+    - git push -f github public-dist:main
+    - git push -f gitflic public-dist:main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"  # Запуск только при пуше в основную ветку
