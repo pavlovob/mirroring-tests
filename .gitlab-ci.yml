@@ -25,7 +25,7 @@ mirror_public:
     - git checkout -B public-dist
     
     # 2. Удаляем файл конфигурации GitLab CI
-    - git rm .gitlab-ci.yml ci
+    - git rm -rf --ignore-unmatch .gitlab-ci.yml ci
     - git config --global user.name "GitLab Mirror Bot"
     - git config --global user.email "mirror-bot@example.com"
     - git commit -m "Cleanup repository for public mirrors [skip ci]"
