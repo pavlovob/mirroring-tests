@@ -11,6 +11,7 @@ variables:
   COMMIT_USER_EMAIL: "mirror-bot@localhost.com"
   COMMIT_MESSAGE: "Cleanup repository for public mirrors [skip ci]"
   GIT_USER: "pavlovob"
+  GIT_PROJECT: "mirroring-tests"
 
 mirror_public:
   stage: sync
@@ -38,8 +39,8 @@ mirror_public:
     - git remote remove github || true
     - git remote remove gitflic || true
 
-    - git remote add github  "git@github.com:$GIT_USER/mirroring-tests.git"
-    - git remote add gitflic "git@gitflic.ru:$GIT_USER/mirroring-tests.git"
+    - git remote add github  "git@github.com:$GIT_USER/$GIT_PROJECT"
+    - git remote add gitflic "git@gitflic.ru:$GIT_USER/$GIT_PROJECT"
     
     - git push -f github public-dist:main
     - git push -f gitflic public-dist:main
